@@ -51,7 +51,7 @@ export default async function LoginPage({
         aria-label="Travel OS platform overview"
         style={{
           backgroundImage: `url(${loginArtwork.src})`,
-          backgroundSize: "192.31% 100%",
+          backgroundSize: "193% 100%",
         }}
       >
         <span className="sr-only">
