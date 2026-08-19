@@ -34,7 +34,7 @@ export default function RootLayout({
         <ClientBootEffects />
         <div className="flex-1">{children}</div>
         <footer className="px-4 py-3 text-center text-xs text-muted-foreground">
-          Powered by Rinnovar Technologies
+          Made By Yash Lalwani with ❤️ 
         </footer>
       </body>
     </html>
