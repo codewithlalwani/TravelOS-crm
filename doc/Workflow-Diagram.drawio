@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="claude-code" version="24.0.0">
+  <diagram name="Travel CRM - End-to-End Workflow" id="travel-crm-workflow">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="4160" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="laneAgent" value="Agent / Admin (CRM UI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fillOpacity=20;verticalAlign=top;fontStyle=1;fontSize=14;align=center;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="3820" as="geometry" />
+        </mxCell>
+        <mxCell id="laneBackend" value="Next.js Backend (Server Actions and API Routes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fillOpacity=20;verticalAlign=top;fontStyle=1;fontSize=14;align=center;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="460" height="3820" as="geometry" />
+        </mxCell>
+        <mxCell id="laneExternal" value="External Services (PayGlocal, SMTP, Local Disk)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fillOpacity=20;verticalAlign=top;fontStyle=1;fontSize=14;align=center;" vertex="1" parent="1">
+          <mxGeometry x="800" y="40" width="260" height="3820" as="geometry" />
+        </mxCell>
+        <mxCell id="laneCustomer" value="Customer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fillOpacity=20;verticalAlign=top;fontStyle=1;fontSize=14;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="40" width="260" height="3820" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_start" value="START&lt;br&gt;Admin / Agent opens the CRM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;arcSize=50;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_login" value="Visit /login&lt;br&gt;Submit email + password&lt;br&gt;(HTML form POST)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="170" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n_loginBackend" value="Server Action: login()&lt;br&gt;[app/login/actions.ts]&lt;br&gt;- findUserByEmail(email)&lt;br&gt;- verifyPassword(password, hash) - bcrypt&lt;br&gt;- Success -&gt; setSessionCookie(): signs JWT, sets httpOnly cookie 'fc_session' (12h, lib/auth/session.ts); logAuditEvent('login_success')&lt;br&gt;- Failure -&gt; logAuditEvent('login_failed'), redirect /login?error=..." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="170" width="460" height="170" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d_loginOk" value="Credentials valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="470" y="370" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_proxyGate" value="proxy.ts (Next.js middleware / route matcher)&lt;br&gt;Guards /bookings/* and /admin/* - unauthenticated -&gt; redirect /login&lt;br&gt;Already-authenticated /login -&gt; redirect /bookings/flights" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="320" y="480" width="460" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_bookingList" value="Agent lands on the Bookings list&lt;br&gt;(/bookings/flights)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_createForm" value="Agent opens 'New Booking' form&lt;br&gt;(Flight / Hotel / Car) and submits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="680" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_createBackend" value="Server Actions: createFlightBookingAction /&lt;br&gt;createHotelBookingAction / createCarBookingAction&lt;br&gt;[app/(app)/bookings/actions.ts]&lt;br&gt;Permission: flights.create | hotels.create | cars.create&lt;br&gt;-&gt; bookingService.create{Flight|Hotel|Car}Booking()&lt;br&gt;Writes: Booking(status='created'), Customer, Passenger(s), {Flight|Hotel|Car}Detail, FlightSegment(s), BookingFare(s)&lt;br&gt;Activity: booking_created" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="680" width="460" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_authForm" value="Agent opens the booking -&gt;&lt;br&gt;'Ticket Authorization' tab&lt;br&gt;Enters charges, amount, e-signature -&gt; Send" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="260" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n_authBackend" value="Server Action: sendAuthorizationAction&lt;br&gt;Permission: bookings.authorize&lt;br&gt;-&gt; sendTicketAuthorization()&lt;br&gt;Writes: TicketAuthorization(status='pending'),&lt;br&gt;EmailLog(templateType='ticket_authorization')&lt;br&gt;Booking.status -&gt; auth_sent&lt;br&gt;Activity: auth_email_sent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="890" width="460" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="n_smtp1" value="EmailAdapter (Nodemailer / SMTP)&lt;br&gt;[lib/email/EmailAdapter.ts]&lt;br&gt;sends the Ticket Authorization email&lt;br&gt;(charges + e-signature request)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="890" width="260" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_customerReview" value="Customer receives the email,&lt;br&gt;reviews charges / PNR / segment details,&lt;br&gt;replies to authorize or decline&lt;br&gt;(reply captured manually - no inbound&lt;br&gt;mail parsing implemented yet)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="1090" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_recordReply" value="Agent reads the customer's reply&lt;br&gt;and records the decision in the CRM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1250" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n_recordBackend" value="Server Action: recordAuthorizationAction&lt;br&gt;Permission: bookings.authorize&lt;br&gt;-&gt; recordCustomerAuthorization()&lt;br&gt;Updates TicketAuthorization.status ('authorized'/'declined')&lt;br&gt;If authorized: Booking.status -&gt; authorized&lt;br&gt;Activity: auth_received" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1250" width="460" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d_authOk" value="Customer&lt;br&gt;authorized?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="470" y="1430" width="160" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n_declinedEnd" value="END (declined)&lt;br&gt;Booking stalls in 'authorized-pending'&lt;br&gt;state - no payment link is created&lt;br&gt;until a reply is recorded as authorized" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;fontStyle=1;align=center;verticalAlign=middle;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1430" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_createLinkForm" value="Agent clicks 'Create Payment Link'&lt;br&gt;enters amount + currency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1560" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n_createLinkBackend" value="API Route: POST /api/payments/create-link&lt;br&gt;[app/api/payments/create-link/route.ts]&lt;br&gt;Permission: bookings.payment&lt;br&gt;-&gt; createPaymentLinkAndSubmitRisk()&lt;br&gt;1. paymentGateway.createPaymentLink()&lt;br&gt;2. Writes PaymentLink(status='created', shortCode)&lt;br&gt;   Booking.status -&gt; payment_link_created&lt;br&gt;   Activity: payment_link_created&lt;br&gt;3. paymentGateway.submitToRiskEngine()&lt;br&gt;   Writes RiskEngineSubmission(status)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1560" width="460" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="n_payglocalCreate" value="PayGlocal PayCollect API (live mode)&lt;br&gt;creates a hosted payment page,&lt;br&gt;returns gid + redirectUrl&lt;br&gt;- OR mock mode: generates an&lt;br&gt;/mock-pay/{gid} URL locally&lt;br&gt;&lt;br&gt;Risk Engine scores the booking&lt;br&gt;(mock adapter: always 'approved')" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1560" width="260" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_shareForm" value="Agent clicks 'Share Payment Link'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1800" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_shareBackend" value="Server Action: sendPaymentLinkAction&lt;br&gt;Permission: bookings.payment&lt;br&gt;-&gt; sendPaymentLinkEmail()&lt;br&gt;Builds shareable short URL: GET /pay/{shortCode}&lt;br&gt;Writes EmailLog(templateType='payment_link'),&lt;br&gt;PaymentLink.emailSentAt&lt;br&gt;Activity: payment_link_shared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1800" width="460" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="n_smtp2" value="SMTP sends the payment-link email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1800" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_customerLink" value="Customer receives the email&lt;br&gt;with the short pay link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="2000" width="260" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n_customerClick" value="Customer clicks the link&lt;br&gt;GET /pay/[code]&lt;br&gt;[app/pay/[code]/route.ts]&lt;br&gt;-&gt; looks up PaymentLink by shortCode&lt;br&gt;-&gt; 302 redirect to PayGlocal's hosted page&lt;br&gt;(or /mock-pay/[linkId] in dev)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="2120" width="260" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="n_customerPay" value="Customer enters card details&lt;br&gt;and submits the payment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="2280" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_payglocalCharge" value="PayGlocal processes&lt;br&gt;the card charge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="2280" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_webhookCallback" value="Browser redirect callback:&lt;br&gt;GET/POST /api/payglocal/webhook&lt;br&gt;(x-gl-token in query or form body)&lt;br&gt;must respond with an HTTP redirect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="2390" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n_webhookAsync" value="Async S2S webhook:&lt;br&gt;POST /api/payglocal/webhook&lt;br&gt;(JSON, e.g. SENT_FOR_CAPTURE / CAPTURED)&lt;br&gt;-&gt; ack 200 immediately, processed in&lt;br&gt;the background via next/server after()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="2540" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n_webhookBackend" value="handlePaymentWebhook(rawBody, signature)&lt;br&gt;[services/bookingService.ts]&lt;br&gt;- verifyWebhookSignature() - HMAC-SHA256 (mock)&lt;br&gt;  or JWS cert verification (live)&lt;br&gt;- parseWebhookPayload() -&gt; normalized payload&lt;br&gt;- looks up PaymentLink by gatewayLinkId -&gt; Booking&lt;br&gt;Writes: Payment(status, gatewayResponse)&lt;br&gt;If success:&lt;br&gt;   PaymentLink.status -&gt; used&lt;br&gt;   Booking.status -&gt; payment_received&lt;br&gt;   Activity: payment_received" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="2390" width="460" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="n_manualAlt" value="ALT PATH: Agent records an&lt;br&gt;offline / manual payment instead&lt;br&gt;Server Action: recordManualPaymentAction&lt;br&gt;Permission: bookings.payment&lt;br&gt;-&gt; recordManualPayment()&lt;br&gt;Writes PaymentLink(gatewayProvider='manual')&lt;br&gt;+ Payment(status='success')&lt;br&gt;Booking.status -&gt; payment_received&lt;br&gt;(skips the gateway entirely)" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="2390" width="260" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_customerResult" value="Browser is redirected to&lt;br&gt;/pay/success or /pay/failure&lt;br&gt;(txnId, amount, currency in query)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="2700" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_uploadForm" value="Agent uploads the primary document&lt;br&gt;(e-ticket / hotel or car voucher)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="2830" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="n_uploadBackend" value="Server Action: uploadPrimaryDocumentAction&lt;br&gt;-&gt; uploadPrimaryDocument()&lt;br&gt;FileStorageAdapter saves the file under /uploads&lt;br&gt;[lib/storage]&lt;br&gt;Writes BookingDocument(isPrimary=true,&lt;br&gt;docType derived from booking.type)&lt;br&gt;Booking.status -&gt; primary_doc_uploaded&lt;br&gt;Activity: primary_doc_uploaded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="2830" width="460" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_sendDocForm" value="Agent clicks 'Send Ticket / Voucher'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="3030" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_sendDocBackend" value="Server Action: sendPrimaryDocumentAction&lt;br&gt;-&gt; sendPrimaryDocument()&lt;br&gt;Emails the file as an attachment&lt;br&gt;Writes EmailLog(templateType='primary_document')&lt;br&gt;Booking.status -&gt; primary_doc_sent&lt;br&gt;Activity: primary_doc_sent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="3030" width="460" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="n_smtp3" value="SMTP delivers the ticket / voucher" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="3030" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_customerDoc" value="Customer receives&lt;br&gt;the e-ticket / voucher" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="3230" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_genInvForm" value="Agent clicks 'Generate Invoice'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="3360" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_genInvBackend" value="Server Action: generateInvoiceAction&lt;br&gt;-&gt; generateInvoiceForBooking()&lt;br&gt;Builds line items from BookingFare,&lt;br&gt;renders a PDF via generateInvoicePdf()&lt;br&gt;[lib/invoices]&lt;br&gt;Writes Invoice row&lt;br&gt;Booking.status -&gt; invoiced&lt;br&gt;Activity: invoice_generated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="3360" width="460" height="190" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_sendInvForm" value="Agent clicks 'Send Invoice'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="3580" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_sendInvBackend" value="Server Action: sendInvoiceAction&lt;br&gt;-&gt; sendInvoiceForBooking()&lt;br&gt;Emails the invoice PDF&lt;br&gt;Writes EmailLog(templateType='invoice'), Invoice.sentAt&lt;br&gt;Booking.status -&gt; completed (terminal)&lt;br&gt;Activity: invoice_sent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=middle;spacing=6;fontFamily=Consolas;" vertex="1" parent="1">
+          <mxGeometry x="320" y="3580" width="460" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n_smtp4" value="SMTP delivers the invoice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="3580" width="260" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="n_customerInv" value="Customer receives the invoice -&lt;br&gt;booking lifecycle is complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="3800" width="260" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_end" value="END&lt;br&gt;Booking.status = 'completed'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;align=center;verticalAlign=middle;arcSize=50;" vertex="1" parent="1">
+          <mxGeometry x="470" y="3930" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n_notes" value="Supporting / cross-cutting endpoints and mechanisms:&lt;br&gt;- GET /api/files/[...path] - serves uploaded documents and invoice PDFs for in-app viewing/download&lt;br&gt;- GET /api/admin/accounting/export - Admin-only CSV export of booking accounting data&lt;br&gt;- Reference/autocomplete APIs used while filling booking forms: /api/flights/search, /api/flights/airports,&lt;br&gt;&#160;&#160;/api/hotels/search, /api/hotels/locations, /api/geo/cities (+ details), /api/country-codes&lt;br&gt;- RBAC: every Server Action / API Route calls requirePermission() / can() (lib/auth/rbac.ts, lib/auth/permissions.ts);&lt;br&gt;&#160;&#160;proxy.ts (middleware) gates the whole /bookings and /admin trees for unauthenticated requests&lt;br&gt;- Every pipeline step also writes an ActivityTimelineEntry (booking-scoped) and/or AuditLog (security-scoped) row -&lt;br&gt;&#160;&#160;both are visible on the booking's Activity Timeline tab&lt;br&gt;- Payment gateway access is behind a swappable PaymentGatewayAdapter interface (lib/payments/PaymentGatewayAdapter.ts);&lt;br&gt;&#160;&#160;PayGlocalAdapter implements it, toggled by PAYGLOCAL_MODE=mock|live" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="4020" width="1300" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_start" target="n_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_login" target="n_loginBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_loginBackend" target="d_loginOk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#b85450;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="d_loginOk" target="n_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#82b366;" edge="1" parent="1" source="d_loginOk" target="n_proxyGate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_proxyGate" target="n_bookingList">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_bookingList" target="n_createForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_createForm" target="n_createBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_createBackend" target="n_authForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_authForm" target="n_authBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_authBackend" target="n_smtp1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_smtp1" target="n_customerReview">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerReview" target="n_recordReply">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_recordReply" target="n_recordBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_recordBackend" target="d_authOk">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#b85450;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="d_authOk" target="n_declinedEnd">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#82b366;" edge="1" parent="1" source="d_authOk" target="n_createLinkForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_createLinkForm" target="n_createLinkBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_createLinkBackend" target="n_payglocalCreate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_payglocalCreate" target="n_shareForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_shareForm" target="n_shareBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_shareBackend" target="n_smtp2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_smtp2" target="n_customerLink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerLink" target="n_customerClick">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerClick" target="n_customerPay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerPay" target="n_payglocalCharge">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_payglocalCharge" target="n_webhookCallback">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_payglocalCharge" target="n_webhookAsync">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_webhookCallback" target="n_webhookBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_webhookAsync" target="n_webhookBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e31" value="Alt: offline payment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="d_authOk" target="n_manualAlt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_webhookBackend" target="n_customerResult">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerResult" target="n_uploadForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;dashed=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="n_manualAlt" target="n_uploadForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_uploadForm" target="n_uploadBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_uploadBackend" target="n_sendDocForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_sendDocForm" target="n_sendDocBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_sendDocBackend" target="n_smtp3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_smtp3" target="n_customerDoc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerDoc" target="n_genInvForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_genInvForm" target="n_genInvBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_genInvBackend" target="n_sendInvForm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_sendInvForm" target="n_sendInvBackend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_sendInvBackend" target="n_smtp4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_smtp4" target="n_customerInv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontSize=9;endArrow=block;endFill=1;strokeColor=#666666;" edge="1" parent="1" source="n_customerInv" target="n_end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f6f8ff;
+  --foreground: #18223a;
+  --card: #ffffff;
+  --card-foreground: #18223a;
+
+  --primary: #3478f6;
+  --primary-hover: #2563eb;
+  --primary-foreground: #ffffff;
+
+  --secondary: #6847e8;
+  --secondary-hover: #5738d1;
+  --secondary-foreground: #ffffff;
+
+  --accent: #6847e8;
+  --accent-hover: #5738d1;
+  --accent-foreground: #ffffff;
+
+  --promotion: #fb7185;
+  --promotion-hover: #f43f5e;
+  --promotion-foreground: #ffffff;
+
+  --muted: #edf1fb;
+  --muted-foreground: #66728a;
+
+  --border: #dce3f1;
+
+  --success: #14b8a6;
+  --success-foreground: #ffffff;
+  --warning: #b45309;
+  --warning-bg: #fef3c7;
+  --danger: #ef4444;
+  --danger-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-promotion: var(--promotion);
+  --color-promotion-hover: var(--promotion-hover);
+  --color-promotion-foreground: var(--promotion-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-border: var(--border);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
+}
+
+.dark {
+  --background: #030b18;
+  --foreground: #f3f6ff;
+  --card: #0a1424;
+  --card-foreground: #f3f6ff;
+
+  --primary: #4385ff;
+  --primary-hover: #669cff;
+  --primary-foreground: #ffffff;
+
+  --secondary: #7048ed;
+  --secondary-hover: #835fff;
+  --secondary-foreground: #ffffff;
+
+  --accent: #7048ed;
+  --accent-hover: #835fff;
+  --accent-foreground: #ffffff;
+
+  --promotion: #fb7185;
+  --promotion-hover: #fda4af;
+  --promotion-foreground: #4c0519;
+
+  --muted: #111d30;
+  --muted-foreground: #9aa7bd;
+
+  --border: #26364d;
+
+  --success: #2dd4bf;
+  --danger: #f87171;
+
+  --warning-bg: #3a2a0c;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-body), sans-serif;
+}
+
+/* Hide number input increment/decrement controls */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Buttons, links, and clickable controls should always show a pointer cursor */
+button,
+[role="button"],
+a[href],
+select,
+summary,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Themed scrollbars (site colors) in place of the browser default, everywhere scrollable. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary);
+}

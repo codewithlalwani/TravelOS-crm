@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="claude-code" version="24.0.0">
+  <diagram name="Travel CRM - ER Diagram" id="travel-crm-erd">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="2200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Role" value="Role" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="280" height="111" as="geometry" />
+        </mxCell>
+        <mxCell id="Role_fields" value="PK id: INTEGER&lt;br&gt;key: STRING (unique)&lt;br&gt;name: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Role">
+          <mxGeometry x="4" y="0" width="272" height="81" as="geometry" />
+        </mxCell>
+        <mxCell id="Permission" value="Permission" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="191" width="280" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="Permission_fields" value="PK id: INTEGER&lt;br&gt;key: STRING (unique)&lt;br&gt;label: STRING&lt;br&gt;group: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Permission">
+          <mxGeometry x="4" y="0" width="272" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="RolePermission" value="RolePermission" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="357" width="280" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="RolePermission_fields" value="PK,FK roleId -&gt; Role.id&lt;br&gt;PK,FK permissionId -&gt; Permission.id" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="RolePermission">
+          <mxGeometry x="4" y="0" width="272" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="User" value="User" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="463" width="280" height="171" as="geometry" />
+        </mxCell>
+        <mxCell id="User_fields" value="PK id: INTEGER&lt;br&gt;name: STRING&lt;br&gt;email: STRING (unique)&lt;br&gt;passwordHash: STRING&lt;br&gt;FK roleId -&gt; Role.id&lt;br&gt;isActive: BOOLEAN&lt;br&gt;FK createdBy -&gt; User.id (self, nullable)&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="User">
+          <mxGeometry x="4" y="0" width="272" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="Customer" value="Customer" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="280" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="Customer_fields" value="PK id: INTEGER&lt;br&gt;name: STRING&lt;br&gt;email: STRING&lt;br&gt;phone: STRING&lt;br&gt;addressStreet1: STRING&lt;br&gt;addressCity: STRING&lt;br&gt;addressState: STRING&lt;br&gt;addressCountry: STRING&lt;br&gt;gstNumber: STRING&lt;br&gt;gstCompanyName: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Customer">
+          <mxGeometry x="4" y="0" width="272" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Booking" value="Booking" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="400" y="296" width="280" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="Booking_fields" value="PK id: INTEGER&lt;br&gt;bookingRef: STRING (unique)&lt;br&gt;type: ENUM(flight,hotel,car,train,cruise)&lt;br&gt;FK customerId -&gt; Customer.id&lt;br&gt;FK agentId -&gt; User.id&lt;br&gt;status: ENUM (9-step lifecycle)&lt;br&gt;totalAmount: DECIMAL(12,2)&lt;br&gt;netAmount: DECIMAL(12,2)&lt;br&gt;mcoAmount: DECIMAL(12,2)&lt;br&gt;currency: STRING(3)&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Booking">
+          <mxGeometry x="4" y="0" width="272" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Passenger" value="Passenger" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="40" width="280" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="Passenger_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;title: STRING&lt;br&gt;firstName: STRING&lt;br&gt;middleName: STRING&lt;br&gt;lastName: STRING&lt;br&gt;gender: STRING&lt;br&gt;paxType: ENUM(ADT,CHD,INF,...)&lt;br&gt;dob: DATEONLY&lt;br&gt;passportNo: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Passenger">
+          <mxGeometry x="4" y="0" width="272" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingFare" value="BookingFare" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="296" width="280" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingFare_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;paxType: ENUM(ADT,CHD,INF,...)&lt;br&gt;baseFare: DECIMAL(10,2)&lt;br&gt;tax: DECIMAL(10,2)&lt;br&gt;gross: DECIMAL(10,2)&lt;br&gt;net: DECIMAL(10,2)&lt;br&gt;mco: DECIMAL(10,2)&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="BookingFare">
+          <mxGeometry x="4" y="0" width="272" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="FlightSegment" value="FlightSegment" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="522" width="280" height="396" as="geometry" />
+        </mxCell>
+        <mxCell id="FlightSegment_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;sequence: INTEGER&lt;br&gt;flightNumber: STRING&lt;br&gt;airline: STRING&lt;br&gt;airlinePnr: STRING&lt;br&gt;depAirport: STRING&lt;br&gt;depCity: STRING&lt;br&gt;depCountry: STRING&lt;br&gt;depDate: DATEONLY&lt;br&gt;depTime: STRING&lt;br&gt;depTerminal: STRING&lt;br&gt;arrAirport: STRING&lt;br&gt;arrCity: STRING&lt;br&gt;arrCountry: STRING&lt;br&gt;arrDate: DATEONLY&lt;br&gt;arrTime: STRING&lt;br&gt;arrTerminal: STRING&lt;br&gt;bookingClass: STRING&lt;br&gt;cabinClass: STRING&lt;br&gt;status: STRING (HK, ...)&lt;br&gt;operatedBy: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="FlightSegment">
+          <mxGeometry x="4" y="0" width="272" height="366" as="geometry" />
+        </mxCell>
+        <mxCell id="FlightDetail" value="FlightDetail" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="958" width="280" height="351" as="geometry" />
+        </mxCell>
+        <mxCell id="FlightDetail_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id (unique, 1:1)&lt;br&gt;pnr: STRING&lt;br&gt;origin: STRING&lt;br&gt;destination: STRING&lt;br&gt;travelDate: DATEONLY&lt;br&gt;cabinClass: STRING&lt;br&gt;gds: STRING&lt;br&gt;ticketingSupplier: STRING&lt;br&gt;tripType: STRING&lt;br&gt;journeyType: STRING&lt;br&gt;fareType: STRING&lt;br&gt;ticketingDeadline: DATEONLY&lt;br&gt;ticketingDeadlineTime: STRING&lt;br&gt;supplierReference: STRING&lt;br&gt;buyCurrency: STRING(3)&lt;br&gt;sellCurrency: STRING(3)&lt;br&gt;rateRemarks: TEXT&lt;br&gt;specialRequest: TEXT&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="FlightDetail">
+          <mxGeometry x="4" y="0" width="272" height="321" as="geometry" />
+        </mxCell>
+        <mxCell id="HotelDetail" value="HotelDetail" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1349" width="280" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="HotelDetail_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id (unique, 1:1)&lt;br&gt;hotelName: STRING&lt;br&gt;address: STRING&lt;br&gt;checkIn: DATEONLY&lt;br&gt;checkOut: DATEONLY&lt;br&gt;roomType: STRING&lt;br&gt;guests: INTEGER&lt;br&gt;ratePerNight: DECIMAL(12,2)&lt;br&gt;taxesAndFees: DECIMAL(12,2)&lt;br&gt;confirmationNo: STRING&lt;br&gt;hotelRating: DECIMAL(2,1)&lt;br&gt;specialRequest: TEXT&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="HotelDetail">
+          <mxGeometry x="4" y="0" width="272" height="231" as="geometry" />
+        </mxCell>
+        <mxCell id="CarDetail" value="CarDetail" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1650" width="280" height="381" as="geometry" />
+        </mxCell>
+        <mxCell id="CarDetail_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id (unique, 1:1)&lt;br&gt;pickupLocation: STRING&lt;br&gt;pickupStationType: STRING&lt;br&gt;pickupStation: STRING&lt;br&gt;pickupDateTime: DATE&lt;br&gt;dropoffDifferentLocation: BOOLEAN&lt;br&gt;dropoffLocation: STRING&lt;br&gt;dropoffStationType: STRING&lt;br&gt;dropoffStation: STRING&lt;br&gt;dropoffDateTime: DATE&lt;br&gt;meetingPoint: TEXT&lt;br&gt;bookingStatus: STRING&lt;br&gt;supplierRef: STRING&lt;br&gt;supplierType: STRING&lt;br&gt;supplier: STRING&lt;br&gt;vehicleCode: STRING&lt;br&gt;vehicleName: STRING&lt;br&gt;maxPax: INTEGER&lt;br&gt;maxLuggage: INTEGER&lt;br&gt;noOfVehicles: INTEGER&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="CarDetail">
+          <mxGeometry x="4" y="0" width="272" height="351" as="geometry" />
+        </mxCell>
+        <mxCell id="TicketAuthorization" value="TicketAuthorization" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="40" width="280" height="246" as="geometry" />
+        </mxCell>
+        <mxCell id="TicketAuthorization_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id (unique, 1:1)&lt;br&gt;emailSentAt: DATE&lt;br&gt;emailBody: TEXT&lt;br&gt;customerReplyText: TEXT&lt;br&gt;customerReplyReceivedAt: DATE&lt;br&gt;status: ENUM(pending,authorized,declined)&lt;br&gt;authorizedAmount: DECIMAL(12,2)&lt;br&gt;authorizationDate: DATEONLY&lt;br&gt;charges: JSON (ChargeLine[])&lt;br&gt;refundAmount: DECIMAL(12,2)&lt;br&gt;eSignatureName: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="TicketAuthorization">
+          <mxGeometry x="4" y="0" width="272" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="PaymentLink" value="PaymentLink" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="326" width="280" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="PaymentLink_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;amount: DECIMAL(12,2)&lt;br&gt;currency: STRING(3)&lt;br&gt;gatewayProvider: STRING&lt;br&gt;gatewayLinkId: STRING&lt;br&gt;linkUrl: TEXT&lt;br&gt;shortCode: STRING(10) (unique)&lt;br&gt;status: ENUM(created,expired,used,cancelled)&lt;br&gt;emailSentAt: DATE&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="PaymentLink">
+          <mxGeometry x="4" y="0" width="272" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="RiskEngineSubmission" value="RiskEngineSubmission" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="582" width="280" height="171" as="geometry" />
+        </mxCell>
+        <mxCell id="RiskEngineSubmission_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;FK paymentLinkId -&gt; PaymentLink.id&lt;br&gt;payloadJson: JSON&lt;br&gt;submittedAt: DATE&lt;br&gt;responseJson: JSON&lt;br&gt;status: STRING&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="RiskEngineSubmission">
+          <mxGeometry x="4" y="0" width="272" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="Payment" value="Payment" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="793" width="280" height="232" as="geometry" />
+        </mxCell>
+        <mxCell id="Payment_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;FK paymentLinkId -&gt; PaymentLink.id&lt;br&gt;transactionId: STRING&lt;br&gt;gatewayReferenceNumber: STRING&lt;br&gt;amountPaid: DECIMAL(12,2)&lt;br&gt;currency: STRING(3)&lt;br&gt;paymentMethod: STRING&lt;br&gt;paidAt: DATE&lt;br&gt;status: ENUM(pending,success,failed)&lt;br&gt;gatewayResponse: JSON (raw gateway payload)&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Payment">
+          <mxGeometry x="4" y="0" width="272" height="202" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingDocument" value="BookingDocument" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="40" width="280" height="171" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingDocument_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;docType: ENUM(ticket,hotel_voucher,...)&lt;br&gt;isPrimary: BOOLEAN&lt;br&gt;fileUrl: STRING&lt;br&gt;uploadedAt: DATE&lt;br&gt;FK uploadedBy -&gt; User.id&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="BookingDocument">
+          <mxGeometry x="4" y="0" width="272" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="Invoice" value="Invoice" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="251" width="280" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Invoice_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;invoiceNo: STRING (unique)&lt;br&gt;amount: DECIMAL(12,2)&lt;br&gt;currency: STRING(3)&lt;br&gt;generatedAt: DATE&lt;br&gt;pdfUrl: STRING&lt;br&gt;sentAt: DATE&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="Invoice">
+          <mxGeometry x="4" y="0" width="272" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="EmailLog" value="EmailLog" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="477" width="280" height="171" as="geometry" />
+        </mxCell>
+        <mxCell id="EmailLog_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;templateType: ENUM(ticket_authorization,primary_document,invoice,payment_link)&lt;br&gt;toEmail: STRING&lt;br&gt;subject: STRING&lt;br&gt;body: TEXT&lt;br&gt;sentAt: DATE&lt;br&gt;status: ENUM(sent,failed)&lt;br&gt;createdAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="EmailLog">
+          <mxGeometry x="4" y="0" width="272" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="ActivityTimelineEntry" value="ActivityTimelineEntry" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="688" width="280" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="ActivityTimelineEntry_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;eventType: ENUM (14 event types)&lt;br&gt;description: STRING&lt;br&gt;FK actorId -&gt; User.id (nullable)&lt;br&gt;actorEmail: STRING&lt;br&gt;actorRole: STRING&lt;br&gt;occurredAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="ActivityTimelineEntry">
+          <mxGeometry x="4" y="0" width="272" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingNote" value="BookingNote" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1480" y="884" width="280" height="141" as="geometry" />
+        </mxCell>
+        <mxCell id="BookingNote_fields" value="PK id: INTEGER&lt;br&gt;FK bookingId -&gt; Booking.id&lt;br&gt;content: TEXT&lt;br&gt;FK createdBy -&gt; User.id (author, nullable)&lt;br&gt;FK updatedBy -&gt; User.id (editor, nullable)&lt;br&gt;createdAt: DATE&lt;br&gt;updatedAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="BookingNote">
+          <mxGeometry x="4" y="0" width="272" height="111" as="geometry" />
+        </mxCell>
+        <mxCell id="AuditLog" value="AuditLog" style="swimlane;whiteSpace=wrap;html=1;startSize=26;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;align=center;verticalAlign=middle;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1840" y="40" width="280" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="AuditLog_fields" value="PK id: INTEGER&lt;br&gt;eventType: ENUM (22 event types)&lt;br&gt;description: STRING&lt;br&gt;FK actorId -&gt; User.id (nullable)&lt;br&gt;actorEmail: STRING&lt;br&gt;FK targetUserId -&gt; User.id (nullable)&lt;br&gt;FK bookingId -&gt; Booking.id (nullable)&lt;br&gt;ipAddress: STRING&lt;br&gt;metadata: JSON&lt;br&gt;occurredAt: DATE" style="text;html=1;align=left;verticalAlign=top;spacing=6;fontFamily=Consolas;fontSize=10;whiteSpace=wrap;" vertex="1" parent="AuditLog">
+          <mxGeometry x="4" y="0" width="272" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1000" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="User">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1001" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Role" target="User">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1002" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Role" target="RolePermission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1003" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Permission" target="RolePermission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1004" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="Booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1005" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Customer" target="Booking">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1006" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="Passenger">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1007" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERone;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="FlightDetail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1008" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERone;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="HotelDetail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1009" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERone;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="CarDetail">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1010" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="FlightSegment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1011" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="BookingFare">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1012" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERone;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="TicketAuthorization">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1013" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="PaymentLink">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1014" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="PaymentLink" target="RiskEngineSubmission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1015" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="RiskEngineSubmission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1016" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="PaymentLink" target="Payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1017" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="Payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1018" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="BookingDocument">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1019" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="BookingDocument">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1020" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="Invoice">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1021" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="EmailLog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1022" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="ActivityTimelineEntry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1023" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="ActivityTimelineEntry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1024" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="BookingNote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1025" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="BookingNote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1026" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="BookingNote">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1027" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="AuditLog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1028" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="User" target="AuditLog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1029" style="edgeStyle=entityRelationEdgeStyle;rounded=0;html=1;fontSize=9;startArrow=ERone;startFill=0;endArrow=ERmany;endFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#666666;" edge="1" parent="1" source="Booking" target="AuditLog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
