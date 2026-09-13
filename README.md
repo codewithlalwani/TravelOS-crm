@@ -12,7 +12,12 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+
+```Travel-CRM portal
+Admin: admin@flightconnect.test / Admin@12345
+Agent: agent@flightconnect.test / Agent@12345
+auditor : it@gmail.com / it@gmail.com
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
