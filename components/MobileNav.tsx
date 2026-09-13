@@ -85,7 +85,7 @@ export function MobileNav({
 
           <div className="relative flex h-full w-72 max-w-[80vw] flex-col border-r border-border bg-card">
             <div className="flex items-center justify-between border-b border-border px-6 py-5">
-              <Image src="/logo.png" alt="fsn TravelTech" width={539} height={287} className="h-9 w-auto rounded-md" />
+
               <button
                 type="button"
                 onClick={() => setOpen(false)}

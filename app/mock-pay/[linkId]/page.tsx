@@ -15,9 +15,7 @@ export default async function MockPayPage({
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary via-primary to-secondary px-4">
       <div className="w-full max-w-sm">
-        <div className="mb-6 flex items-center justify-center">
-          <Image src="/logo.png" alt="fsn TravelTech" width={539} height={287} className="h-12 w-auto rounded-lg" priority />
-        </div>
+      
 
         <div className="rounded-2xl bg-card p-8 shadow-xl">
           {paid ? (
